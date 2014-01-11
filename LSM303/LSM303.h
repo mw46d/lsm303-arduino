@@ -1,7 +1,12 @@
 #ifndef LSM303_h
 #define LSM303_h
 
+#ifdef __ARMEL__				// CM-900 
+#include <stdint.h>
+typedef uint8_t byte;
+#else						// Arduino
 #include <Arduino.h> // for byte data type
+#endif
 
 class LSM303
 {
@@ -213,6 +218,3 @@ class LSM303
 };
 
 #endif
-
-
-

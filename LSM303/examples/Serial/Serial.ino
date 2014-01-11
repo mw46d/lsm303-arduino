@@ -31,12 +31,10 @@ at this FS setting, so the value of -1009 corresponds to -1009 * 1 =
 
 LSM303 compass;
 
-char report[80];
-
 void setup()
 {
-  Serial.begin(9600);
-  Wire.begin();
+  SerialUSB.begin();
+  Wire.begin(14, 15);
   compass.init();
   compass.enableDefault();
 }
@@ -45,10 +43,14 @@ void loop()
 {
   compass.read();
 
-  snprintf(report, sizeof(report), "A: %6d %6d %6d    M: %6d %6d %6d",
-    compass.a.x, compass.a.y, compass.a.z,
-    compass.m.x, compass.m.y, compass.m.z);
-  Serial.println(report);
+  SerialUSB.print("A: ");
+  SerialUSB.print(compass.a.x); SerialUSB.print(" ");
+  SerialUSB.print(compass.a.y); SerialUSB.print(" ");
+  SerialUSB.print(compass.a.z);
+  SerialUSB.print(" M: ");
+  SerialUSB.print(compass.m.x); SerialUSB.print(" ");
+  SerialUSB.print(compass.m.y); SerialUSB.print(" ");
+  SerialUSB.println(compass.m.z);
 
   delay(100);
 }

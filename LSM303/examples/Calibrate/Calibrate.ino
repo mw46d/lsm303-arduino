@@ -4,11 +4,9 @@
 LSM303 compass;
 LSM303::vector<int16_t> running_min = {32767, 32767, 32767}, running_max = {-32768, -32768, -32768};
 
-char report[80];
-
 void setup() {
-  Serial.begin(9600);
-  Wire.begin();
+  SerialUSB.begin();
+  Wire.begin(14, 15);
   compass.init();
   compass.enableDefault();
 }
@@ -24,10 +22,15 @@ void loop() {
   running_max.y = max(running_max.y, compass.m.y);
   running_max.z = max(running_max.z, compass.m.z);
   
-  snprintf(report, sizeof(report), "min: {%+6d, %+6d, %+6d}    max: {%+6d, %+6d, %+6d}",
-    running_min.x, running_min.y, running_min.z,
-    running_max.x, running_max.y, running_max.z);
-  Serial.println(report);
+  SerialUSB.print("min: {");
+  SerialUSB.print(running_min.x); SerialUSB.print(", ");
+  SerialUSB.print(running_min.y); SerialUSB.print(", ");
+  SerialUSB.print(running_min.z);
+  SerialUSB.print("}  max: {");
+  SerialUSB.print(running_max.x); SerialUSB.print(", ");
+  SerialUSB.print(running_max.y); SerialUSB.print(", ");
+  SerialUSB.print(running_max.z);
+  SerialUSB.println("}");
   
   delay(100);
 }

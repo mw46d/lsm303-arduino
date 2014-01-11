@@ -4,8 +4,8 @@
 LSM303 compass;
 
 void setup() {
-  Serial.begin(9600);
-  Wire.begin();
+  SerialUSB.begin();
+  Wire.begin(14, 15);
   compass.init();
   compass.enableDefault();
   
@@ -40,7 +40,7 @@ void loop() {
   to use the +Z axis as a reference.
   */
   float heading = compass.heading();
-  
-  Serial.println(heading);
+
+  SerialUSB.println(heading);
   delay(100);
 }
